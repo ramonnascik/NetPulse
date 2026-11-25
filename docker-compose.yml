@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: netpulse
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-netpulse}
+      POSTGRES_DB: netpulse
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U netpulse -d netpulse"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    cap_add:
+      - NET_RAW          # necessário para o ping (ICMP)
+    environment:
+      DATABASE_URL: postgresql://netpulse:${DB_PASSWORD:-netpulse}@db:5432/netpulse
+      SECRET_KEY: ${SECRET_KEY:-troque-esta-chave}
+      ADMIN_USER: ${ADMIN_USER:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin123}
+      POLL_INTERVAL: ${POLL_INTERVAL:-5}
+      PING_TIMEOUT: ${PING_TIMEOUT:-2}
+      SLOW_MS: ${SLOW_MS:-100}
+      FAIL_THRESHOLD: ${FAIL_THRESHOLD:-2}
+    ports:
+      - "${PORT:-8080}:8000"
+
+volumes:
+  pgdata:

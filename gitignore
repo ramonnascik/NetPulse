@@ -1,0 +1,67 @@
+# ---------- Segredos e configuração local (NUNCA subir) ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+secrets/
+
+# ---------- Backups e dados do banco ----------
+*.sql
+*.sql.gz
+*.dump
+backup*/
+backups/
+pgdata/
+postgres-data/
+data/
+
+# ---------- Docker (arquivos locais) ----------
+docker-compose.override.yml
+docker-compose.local.yml
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---------- Logs e temporários ----------
+*.log
+logs/
+tmp/
+temp/
+*.tmp
+*.bak
+*.swp
+
+# ---------- Exportações geradas pelo sistema ----------
+netpulse-equipamentos-*.json
+
+# ---------- Pacotes gerados ----------
+*.zip
+*.tar
+*.tar.gz
+
+# ---------- Node (caso use ferramentas de frontend) ----------
+node_modules/
+
+# ---------- Editores e IDEs ----------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ---------- Sistema operacional ----------
+.DS_Store
+Thumbs.db
+desktop.ini
